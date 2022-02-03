@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+
+	"github.com/KenethSandoval/xopopu/pkg"
 )
 
 // UploadCSV Receive the formdata file and make sure it is a valid .csv
@@ -41,13 +43,21 @@ func saveFile(w http.ResponseWriter, file multipart.File, handler *multipart.Fil
 		return
 	}
 
-	fmt.Println(handler.Filename)
+	result, err := pkg.CreateDir("./files")
 
-	err = ioutil.WriteFile("./files/"+handler.Filename, data, 0666)
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
 		return
 	}
+
+	if result {
+		err = ioutil.WriteFile("./files/"+handler.Filename, data, 0666)
+		if err != nil {
+			fmt.Fprintf(w, "%v", err)
+			return
+		}
+	}
+
 	jsonResponse(w, 200, "File uploaded successfully!")
 }
 
