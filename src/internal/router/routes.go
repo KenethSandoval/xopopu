@@ -2,9 +2,11 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/KenethSandoval/xopopu/internal/upload"
+	"github.com/KenethSandoval/xopopu/pkg"
 )
 
 type Handler struct{}
@@ -23,6 +25,7 @@ func InitRouter(mux *http.ServeMux) {
 
 func home(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-
+	r, _ := pkg.ReadCSV()
+	fmt.Println(r)
 	json.NewEncoder(w).Encode(MessageStruct{Message: "hello"})
 }

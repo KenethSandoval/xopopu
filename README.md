@@ -8,7 +8,8 @@ La idea es crear una herramienta de backend que resiva un archivo .csv y lo regr
 ## TODO list
 - [x] Crear la estructura del proyecto
 - [x] Agregar Docker
-- [ ] Crear servidor
-- [ ] Almacenar archivo
+- [x] Crear servidor
+- [x] Almacenar archivo
 - [ ] Procesar archivo
 - [ ] Documentar
+- [ ] Crear response en pkg
