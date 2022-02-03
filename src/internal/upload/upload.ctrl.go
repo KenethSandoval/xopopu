@@ -51,7 +51,12 @@ func saveFile(w http.ResponseWriter, file multipart.File, handler *multipart.Fil
 	}
 
 	if result {
-		err = ioutil.WriteFile("./files/"+handler.Filename, data, 0666)
+		filename := handler.Filename
+
+		err = ioutil.WriteFile("./files/"+filename, data, 0666)
+
+		err = pkg.CSVToJson(filename)
+
 		if err != nil {
 			fmt.Fprintf(w, "%v", err)
 			return
