@@ -8,7 +8,7 @@ import (
 )
 
 func CSVToJson(f string) error {
-	err, data := ReadCSV(f)
+	data, err := ReadCSV(f)
 	if err != nil {
 		return err
 	}
@@ -27,11 +27,10 @@ func CSVToJson(f string) error {
 
 // ReadCSV receive the handler with the name of the last uploaded file
 // read the csv line by line and return the read result or an error
-func ReadCSV(f string) (error, [][]string) {
-
+func ReadCSV(f string) ([][]string, error) {
 	// saves the read of the file in a multidimensional array to be able
 	// to extract the header of the csv
-	var result [][]string = make([][]string, 0)
+	result := make([][]string, 0)
 
 	file, err := os.Open("./files/" + f)
 	if err != nil {
@@ -44,12 +43,12 @@ func ReadCSV(f string) (error, [][]string) {
 	for {
 		row, err := r.Read()
 		if err != nil && err != io.EOF {
-			return err, nil
+			return nil, err
 		}
 		if err == io.EOF {
 			break
 		}
 		result = append(result, row)
 	}
-	return nil, result
+	return result, nil
 }

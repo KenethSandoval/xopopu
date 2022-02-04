@@ -9,6 +9,12 @@ import (
 	"github.com/KenethSandoval/xopopu/pkg"
 )
 
+var (
+	err    error
+	data   []byte
+	result bool
+)
+
 // UploadCSV Receive the formdata file and make sure it is a valid .csv
 func UploadCSV(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -37,14 +43,13 @@ func UploadCSV(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveFile(w http.ResponseWriter, file multipart.File, handler *multipart.FileHeader) {
-	data, err := ioutil.ReadAll(file)
+	data, err = ioutil.ReadAll(file)
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
 		return
 	}
 
-	result, err := pkg.CreateDir("./files")
-
+	result, err = pkg.CreateDir("./files")
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
 		return
