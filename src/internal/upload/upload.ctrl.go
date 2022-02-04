@@ -1,6 +1,7 @@
 package upload
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"mime/multipart"
@@ -60,7 +61,10 @@ func saveFile(w http.ResponseWriter, file multipart.File, handler *multipart.Fil
 
 		err = ioutil.WriteFile("./files/"+filename, data, 0666)
 
-		err = pkg.CSVToJson(filename)
+		list, _ := pkg.CSVToJson(filename)
+
+		jsonData, err := json.MarshalIndent(list, "", " ")
+		fmt.Println(string(jsonData))
 
 		if err != nil {
 			fmt.Fprintf(w, "%v", err)

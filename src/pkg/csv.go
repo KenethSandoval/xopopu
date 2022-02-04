@@ -5,24 +5,50 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 )
 
-func CSVToJson(f string) error {
-	data, err := ReadCSV(f)
+// TestCSV struct the test for csv to json
+type TestCSV struct {
+	Vegetable string `json:"vegetable"`
+	Fruit     string `json:"fruit"`
+	Rank      int    `json:"rank"`
+}
+
+// TODO: working...
+func CSVToJson(f string) ([]TestCSV, error) {
+	var (
+		dataList []TestCSV
+		data     [][]string
+		err      error
+	)
+
+	data, err = ReadCSV(f)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	m := len(data)
-	n := len(data[0])
-
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			fmt.Printf("%v", data[0][0])
+	for i, line := range data {
+		if i > 0 { // omit header
+			var rec TestCSV
+			for j, field := range line {
+				switch j {
+				case 0:
+					rec.Vegetable = field
+				case 1:
+					rec.Fruit = field
+				case 2:
+					rec.Rank, err = strconv.Atoi(field)
+					if err != nil {
+						continue
+					}
+				}
+			}
+			dataList = append(dataList, rec)
 		}
 	}
 
-	return nil
+	return dataList, nil
 }
 
 // ReadCSV receive the handler with the name of the last uploaded file
