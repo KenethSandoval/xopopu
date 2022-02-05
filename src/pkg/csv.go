@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"encoding/csv"
-	"fmt"
 	"io"
 	"os"
 )
@@ -50,7 +49,7 @@ func ReadCSV(f string) ([][]string, error) {
 
 	file, err := os.Open("./files/" + f)
 	if err != nil {
-		fmt.Printf("%v", err)
+		return nil, err
 	}
 	defer file.Close()
 

@@ -64,19 +64,13 @@ func saveFile(w http.ResponseWriter, file multipart.File, handler *multipart.Fil
 		list, _ := pkg.CSVToJson(filename)
 
 		jsonData, err := json.MarshalIndent(list, "", " ")
-		fmt.Println(string(jsonData))
-
 		if err != nil {
 			fmt.Fprintf(w, "%v", err)
 			return
 		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		w.Write(jsonData)
 	}
-
-	jsonResponse(w, 200, "File uploaded successfully!")
-}
-
-func jsonResponse(w http.ResponseWriter, code int, message string) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(code)
-	fmt.Fprint(w, message)
 }
