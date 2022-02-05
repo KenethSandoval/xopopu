@@ -5,22 +5,19 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 )
 
-// TestCSV struct the test for csv to json
-type TestCSV struct {
-	Vegetable string `json:"vegetable"`
-	Fruit     string `json:"fruit"`
-	Rank      int    `json:"rank"`
+type A struct {
+	Data string
 }
 
-// TODO: working...
-func CSVToJson(f string) ([]TestCSV, error) {
+func CSVToJson(f string) (interface{}, error) {
 	var (
-		dataList []TestCSV
+		dataList []map[string]interface{}
 		data     [][]string
 		err      error
+		database map[string]interface{}
+		headers  []string
 	)
 
 	data, err = ReadCSV(f)
@@ -28,23 +25,16 @@ func CSVToJson(f string) ([]TestCSV, error) {
 		return nil, err
 	}
 
+	headers = append(headers, data[0]...)
+
 	for i, line := range data {
 		if i > 0 { // omit header
-			var rec TestCSV
+			database = make(map[string]interface{})
+
 			for j, field := range line {
-				switch j {
-				case 0:
-					rec.Vegetable = field
-				case 1:
-					rec.Fruit = field
-				case 2:
-					rec.Rank, err = strconv.Atoi(field)
-					if err != nil {
-						continue
-					}
-				}
+				database[headers[j]] = field
 			}
-			dataList = append(dataList, rec)
+			dataList = append(dataList, database)
 		}
 	}
 
