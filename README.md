@@ -10,6 +10,6 @@ La idea es crear una herramienta de backend que resiva un archivo .csv y lo regr
 - [x] Agregar Docker
 - [x] Crear servidor
 - [x] Almacenar archivo
-- [ ] Procesar archivo
+- [x] Procesar archivo
 - [ ] Documentar
 - [ ] Crear response en pkg
