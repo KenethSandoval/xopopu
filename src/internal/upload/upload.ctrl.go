@@ -18,6 +18,7 @@ var (
 
 // UploadCSV Receive the formdata file and make sure it is a valid .csv
 func UploadCSV(w http.ResponseWriter, r *http.Request) {
+	pkg.EnableCors(&w)
 	if r.Method != http.MethodPost {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return

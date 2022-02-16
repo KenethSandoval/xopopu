@@ -23,7 +23,7 @@ func InitRouter(mux *http.ServeMux) {
 }
 
 func home(w http.ResponseWriter, _ *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
 	pkg.EnableCors(&w)
+	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(MessageStruct{Message: "hello"})
 }
